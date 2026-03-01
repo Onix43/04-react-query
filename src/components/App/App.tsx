@@ -1,4 +1,4 @@
-import fetchMovies from "../movieService/movieService";
+import fetchMovies from "../../services/movieService";
 import css from "./App.module.css";
 import SearchBar from "../SearchBar/SearchBar";
 import toast, { Toaster } from "react-hot-toast";
