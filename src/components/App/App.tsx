@@ -17,14 +17,17 @@ function App() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [query, setQuery] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [modalMovie, setModalMovie] = useState<Movie>();
+  const [modalMovie, setModalMovie] = useState<Movie | null>(null);
 
   // Modal fucntions
   const openModal = (movie: Movie) => {
     setModalMovie(movie);
     setIsModalOpen(true);
   };
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setModalMovie(null);
+  };
 
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["movies", query, currentPage],
@@ -43,7 +46,12 @@ function App() {
 
   return (
     <div className={css.app}>
-      <SearchBar onSubmit={(query) => setQuery(query)} />
+      <SearchBar
+        onSubmit={(query) => {
+          setQuery(query);
+          setCurrentPage(1);
+        }}
+      />
       <Toaster />
       {isSuccess && data.total_pages > 1 && (
         <ReactPaginate
